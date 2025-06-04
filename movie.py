@@ -6,6 +6,20 @@ CUR_DIR = os.path.dirname(__file__)
 DATA_FILE = os.path.join(CUR_DIR, "data", "movies.json")
 
 
+def get_movies():
+    movies = []
+    with open(DATA_FILE, "r") as f:
+        movies_title = json.load(f)
+
+    # Compréhension de liste
+    # movies = [Movie(movie_title) for movie_title in movies_title]
+
+    for movie_title in movies_title:
+        movies.append(Movie(movie_title))
+
+    print(movies)
+
+
 class Movie:
     def __init__(self, title):
         self.title = title.title()
@@ -32,7 +46,16 @@ class Movie:
             logging.warning(f"Le film {self.title} est déjà enregistré")
             return False
 
+    def remove_from_movies(self):
+        movies = self._get_movies()
+        if self.title in movies:
+            movies.remove(self.title)
+            self._write_movies(movies)
+
 
 if __name__ == "__main__":
-    m = Movie("Harry Potter")
-    print(m.add_to_movies())
+    # m = Movie("La Passion du Christ")
+    # m.add_to_movies()
+    # m.remove_from_movies()
+    movies = get_movies()
+    print(movies)
